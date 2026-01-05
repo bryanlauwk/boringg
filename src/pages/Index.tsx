@@ -1,11 +1,13 @@
-import { Zap, Users, Info } from "lucide-react";
+import { Zap, Users } from "lucide-react";
 import LiveIndicator from "@/components/LiveIndicator";
 import BoredomButton from "@/components/BoredomButton";
 import StatCard from "@/components/StatCard";
 import BoredomGrid from "@/components/BoredomGrid";
 import Ticker from "@/components/Ticker";
 import ColorWave from "@/components/ColorWave";
+import BoredomFactsModal from "@/components/BoredomFactsModal";
 import { useBoredomData } from "@/hooks/useBoredomData";
+import { useConfetti } from "@/hooks/useConfetti";
 
 const Index = () => {
   const { 
@@ -20,6 +22,9 @@ const Index = () => {
     gridSize 
   } = useBoredomData();
 
+  // Trigger confetti on milestones
+  useConfetti(totalClicks, currentEra);
+
   return (
     <div className="relative min-h-screen bg-background pb-14">
       {/* Header */}
@@ -31,9 +36,12 @@ const Index = () => {
               Era {currentEra}
             </span>
           </div>
-          <button className="rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-card hover:text-foreground">
-            <Info className="h-4 w-4" />
-          </button>
+          <BoredomFactsModal 
+            totalClicks={totalClicks}
+            activeUsers={activeUsers}
+            saturation={saturation}
+            currentEra={currentEra}
+          />
         </div>
       </header>
 
