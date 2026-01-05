@@ -6,7 +6,7 @@ const LiveIndicator = () => {
         <span className="relative inline-flex h-2 w-2 rounded-full bg-live-green"></span>
       </span>
       <span className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
-        Global Sync Active
+        Live Global Feed
       </span>
     </div>
   );

@@ -22,14 +22,12 @@ const colorClasses: Record<string, string> = {
 
 const BoredomGrid = ({ pixels, gridSize, saturation }: BoredomGridProps) => {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       {/* Header */}
-      <div className="flex items-center justify-between rounded-lg bg-card/50 px-4 py-3 backdrop-blur-sm">
-        <div>
-          <h2 className="font-display text-2xl tracking-wide text-foreground">GLOBAL TAPESTRY</h2>
-        </div>
+      <div className="flex items-center justify-between rounded-lg bg-card/50 px-3 py-2 backdrop-blur-sm">
+        <h2 className="font-display text-xl tracking-wide text-foreground">THE BOREDOM GRID</h2>
         <span className="text-xs text-muted-foreground tracking-widest">
-          {gridSize}x{gridSize} / RES: {gridSize * gridSize}
+          {gridSize}×{gridSize}
         </span>
       </div>
 
@@ -58,18 +56,18 @@ const BoredomGrid = ({ pixels, gridSize, saturation }: BoredomGridProps) => {
       </div>
 
       {/* Saturation indicator */}
-      <div className="flex items-center justify-between rounded-lg bg-card/50 px-4 py-3 backdrop-blur-sm">
+      <div className="flex items-center justify-between rounded-lg bg-card/50 px-3 py-2 backdrop-blur-sm">
         <span className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
           Saturation
         </span>
-        <div className="flex items-center gap-3">
-          <div className="h-1.5 w-24 overflow-hidden rounded-full bg-muted/30">
+        <div className="flex items-center gap-2">
+          <div className="h-1 w-20 overflow-hidden rounded-full bg-muted/30">
             <div 
               className="h-full rounded-full bg-boredom-cyan transition-all duration-500"
               style={{ width: `${saturation}%` }}
             />
           </div>
-          <span className="font-display text-lg text-foreground">{saturation}%</span>
+          <span className="font-display text-sm text-foreground">{saturation}%</span>
         </div>
       </div>
     </div>
