@@ -1,54 +1,15 @@
-import { useState, useCallback } from "react";
 import { Zap, Users, Info } from "lucide-react";
 import LiveIndicator from "@/components/LiveIndicator";
 import BoredomButton from "@/components/BoredomButton";
 import StatCard from "@/components/StatCard";
 import BoredomGrid from "@/components/BoredomGrid";
 import Ticker from "@/components/Ticker";
+import { useBoredomData } from "@/hooks/useBoredomData";
 
 const GRID_SIZE = 20;
-const COLORS = ["coral", "yellow", "green", "cyan", "purple", "pink", "white"];
-
-interface Pixel {
-  id: number;
-  color: string;
-  isNew?: boolean;
-}
 
 const Index = () => {
-  const [totalClicks, setTotalClicks] = useState(8);
-  const [activeUsers] = useState(142);
-  const [pixels, setPixels] = useState<Pixel[]>([
-    { id: 42, color: "green" },
-    { id: 189, color: "purple" },
-    { id: 256, color: "white" },
-    { id: 312, color: "pink" },
-    { id: 78, color: "green" },
-    { id: 395, color: "coral" },
-  ]);
-
-  const handleButtonClick = useCallback(() => {
-    setTotalClicks(prev => prev + 1);
-    
-    // Add a new random pixel
-    const randomPosition = Math.floor(Math.random() * GRID_SIZE * GRID_SIZE);
-    const randomColor = COLORS[Math.floor(Math.random() * COLORS.length)];
-    
-    setPixels(prev => {
-      // Remove isNew from previous pixels and add new one
-      const updated = prev.map(p => ({ ...p, isNew: false }));
-      
-      // Check if position exists, update color if so
-      const existingIndex = updated.findIndex(p => p.id === randomPosition);
-      if (existingIndex >= 0) {
-        updated[existingIndex] = { id: randomPosition, color: randomColor, isNew: true };
-      } else {
-        updated.push({ id: randomPosition, color: randomColor, isNew: true });
-      }
-      
-      return updated;
-    });
-  }, []);
+  const { totalClicks, activeUsers, pixels, isLoading, handleClick } = useBoredomData();
 
   return (
     <div className="relative min-h-screen bg-background pb-16">
@@ -75,7 +36,7 @@ const Index = () => {
             </div>
 
             <div className="flex justify-center lg:justify-start">
-              <BoredomButton onClick={handleButtonClick} />
+              <BoredomButton onClick={handleClick} disabled={isLoading} />
             </div>
 
             {/* Stats */}

@@ -14,13 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      boredom_pixels: {
+        Row: {
+          color: string
+          created_at: string
+          id: number
+          position: number
+        }
+        Insert: {
+          color: string
+          created_at?: string
+          id?: number
+          position: number
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          id?: number
+          position?: number
+        }
+        Relationships: []
+      }
+      boredom_stats: {
+        Row: {
+          id: string
+          total_clicks: number
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          total_clicks?: number
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          total_clicks?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_clicks: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
