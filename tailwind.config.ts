@@ -62,6 +62,7 @@ export default {
         },
         live: {
           red: "hsl(var(--live-red))",
+          green: "hsl(var(--live-green))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

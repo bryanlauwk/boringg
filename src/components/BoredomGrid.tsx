@@ -1,5 +1,3 @@
-import { Globe } from "lucide-react";
-
 interface Pixel {
   id: number;
   color: string;
@@ -9,6 +7,7 @@ interface Pixel {
 interface BoredomGridProps {
   pixels: Pixel[];
   gridSize: number;
+  saturation: number;
 }
 
 const colorClasses: Record<string, string> = {
@@ -21,30 +20,26 @@ const colorClasses: Record<string, string> = {
   white: "bg-boredom-white",
 };
 
-const BoredomGrid = ({ pixels, gridSize }: BoredomGridProps) => {
+const BoredomGrid = ({ pixels, gridSize, saturation }: BoredomGridProps) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Globe className="h-5 w-5 text-muted-foreground" />
-          <div>
-            <h2 className="font-display text-xl text-foreground">The Boredom Grid</h2>
-            <p className="text-xs text-muted-foreground">Every click changes a random pixel globally.</p>
-          </div>
+      <div className="flex items-center justify-between rounded-lg bg-card/50 px-4 py-3 backdrop-blur-sm">
+        <div>
+          <h2 className="font-display text-2xl tracking-wide text-foreground">GLOBAL TAPESTRY</h2>
         </div>
-        <span className="text-xs text-muted-foreground tracking-wide">
-          RESOLUTION: {gridSize}x{gridSize}
+        <span className="text-xs text-muted-foreground tracking-widest">
+          {gridSize}x{gridSize} / RES: {gridSize * gridSize}
         </span>
       </div>
 
       {/* Grid */}
       <div 
-        className="relative aspect-square w-full rounded-lg border border-border bg-card/30 p-2 backdrop-blur-sm"
+        className="relative aspect-square w-full rounded-lg border border-border bg-card/20 p-1 backdrop-blur-sm"
         style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
-          gap: '2px',
+          gap: '1px',
         }}
       >
         {Array.from({ length: gridSize * gridSize }).map((_, index) => {
@@ -53,8 +48,8 @@ const BoredomGrid = ({ pixels, gridSize }: BoredomGridProps) => {
             <div
               key={index}
               className={`
-                aspect-square rounded-sm transition-colors duration-200
-                ${pixel ? colorClasses[pixel.color] : 'bg-transparent'}
+                aspect-square transition-colors duration-200
+                ${pixel ? colorClasses[pixel.color] : 'bg-muted/20'}
                 ${pixel?.isNew ? 'animate-pixel-pop' : ''}
               `}
             />
@@ -62,17 +57,20 @@ const BoredomGrid = ({ pixels, gridSize }: BoredomGridProps) => {
         })}
       </div>
 
-      {/* Color palette legend */}
-      <div className="flex items-center justify-center gap-3">
-        {Object.keys(colorClasses).map((color) => (
-          <span
-            key={color}
-            className={`h-4 w-4 rounded-full ${colorClasses[color]}`}
-          />
-        ))}
-        <span className="ml-2 text-xs text-muted-foreground tracking-widest uppercase">
-          Global Palette
+      {/* Saturation indicator */}
+      <div className="flex items-center justify-between rounded-lg bg-card/50 px-4 py-3 backdrop-blur-sm">
+        <span className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
+          Saturation
         </span>
+        <div className="flex items-center gap-3">
+          <div className="h-1.5 w-24 overflow-hidden rounded-full bg-muted/30">
+            <div 
+              className="h-full rounded-full bg-boredom-cyan transition-all duration-500"
+              style={{ width: `${saturation}%` }}
+            />
+          </div>
+          <span className="font-display text-lg text-foreground">{saturation}%</span>
+        </div>
       </div>
     </div>
   );

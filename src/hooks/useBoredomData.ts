@@ -8,7 +8,7 @@ interface Pixel {
   isNew?: boolean;
 }
 
-const GRID_SIZE = 20;
+const GRID_SIZE = 50;
 const COLORS = ['coral', 'yellow', 'green', 'cyan', 'purple', 'pink', 'white'];
 
 export const useBoredomData = () => {
@@ -18,6 +18,11 @@ export const useBoredomData = () => {
   const [isLoading, setIsLoading] = useState(true);
   const channelRef = useRef<RealtimeChannel | null>(null);
   const presenceChannelRef = useRef<RealtimeChannel | null>(null);
+
+  // Derived values
+  const saturation = Math.min(100, Math.round((pixels.length / (GRID_SIZE * GRID_SIZE)) * 100));
+  const currentEra = Math.floor(totalClicks / 5000) + 1;
+  const boredomPercentage = Math.min(100, Math.round((totalClicks / 10000) * 100));
 
   // Fetch initial data
   useEffect(() => {
@@ -162,6 +167,10 @@ export const useBoredomData = () => {
     activeUsers,
     pixels,
     isLoading,
-    handleClick
+    handleClick,
+    saturation,
+    currentEra,
+    boredomPercentage,
+    gridSize: GRID_SIZE
   };
 };
