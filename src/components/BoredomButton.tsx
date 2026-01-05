@@ -2,12 +2,14 @@ import { useState } from "react";
 
 interface BoredomButtonProps {
   onClick: () => void;
+  disabled?: boolean;
 }
 
-const BoredomButton = ({ onClick }: BoredomButtonProps) => {
+const BoredomButton = ({ onClick, disabled }: BoredomButtonProps) => {
   const [isPressed, setIsPressed] = useState(false);
 
   const handleClick = () => {
+    if (disabled) return;
     setIsPressed(true);
     onClick();
     setTimeout(() => setIsPressed(false), 150);
@@ -16,6 +18,7 @@ const BoredomButton = ({ onClick }: BoredomButtonProps) => {
   return (
     <button
       onClick={handleClick}
+      disabled={disabled}
       className={`
         group relative flex h-64 w-64 items-center justify-center rounded-full
         border-4 border-border bg-card/30 backdrop-blur-sm
@@ -25,6 +28,7 @@ const BoredomButton = ({ onClick }: BoredomButtonProps) => {
         active:scale-95
         animate-pulse-glow
         md:h-80 md:w-80
+        disabled:opacity-50 disabled:cursor-not-allowed
         ${isPressed ? 'animate-button-press' : ''}
       `}
     >
