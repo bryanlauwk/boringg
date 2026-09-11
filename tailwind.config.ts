@@ -51,19 +51,6 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        boredom: {
-          coral: "hsl(var(--boredom-coral))",
-          yellow: "hsl(var(--boredom-yellow))",
-          green: "hsl(var(--boredom-green))",
-          cyan: "hsl(var(--boredom-cyan))",
-          purple: "hsl(var(--boredom-purple))",
-          pink: "hsl(var(--boredom-pink))",
-          white: "hsl(var(--boredom-white))",
-        },
-        live: {
-          red: "hsl(var(--live-red))",
-          green: "hsl(var(--live-green))",
-        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
