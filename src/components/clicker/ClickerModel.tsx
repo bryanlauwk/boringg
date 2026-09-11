@@ -133,7 +133,7 @@ const ClickerModel = ({ config, pressTick, onPress }: Props) => {
       </mesh>
 
       {/* collar ring */}
-      <mesh position={[0, 0.46, 0]} castShadow>
+      <mesh position={[0, 0.46, 0]} rotation-x={-Math.PI / 2} castShadow>
         <torusGeometry args={[1.06, 0.09, 24, 72]} />
         <meshStandardMaterial color="#1c1e22" metalness={0.9} roughness={0.28} />
       </mesh>
