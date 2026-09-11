@@ -6,52 +6,37 @@
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    /* Studio: deep neutral graphite with a warm machined accent */
+    --background: 225 12% 6%;
+    --foreground: 40 12% 95%;
 
-    --card: 222 47% 14%;
-    --card-foreground: 210 40% 98%;
+    --card: 225 10% 12%;
+    --card-foreground: 40 12% 95%;
 
-    --popover: 222 47% 14%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 225 10% 12%;
+    --popover-foreground: 40 12% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222 47% 11%;
+    --primary: 27 92% 58%;
+    --primary-foreground: 225 12% 8%;
 
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 225 8% 18%;
+    --secondary-foreground: 40 12% 95%;
 
-    --muted: 217 33% 20%;
-    --muted-foreground: 215 20% 55%;
+    --muted: 225 8% 20%;
+    --muted-foreground: 225 8% 62%;
 
-    --accent: 217 33% 22%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 225 8% 22%;
+    --accent-foreground: 40 12% 95%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 52%;
+    --destructive-foreground: 40 12% 95%;
 
-    --border: 217 33% 22%;
-    --input: 217 33% 22%;
-    --ring: 210 40% 98%;
+    --border: 225 8% 22%;
+    --input: 225 8% 22%;
+    --ring: 27 92% 58%;
 
     --radius: 0.75rem;
 
-    /* Custom colors for boredom palette */
-    --boredom-coral: 0 84% 60%;
-    --boredom-yellow: 45 93% 58%;
-    --boredom-green: 142 71% 45%;
-    --boredom-cyan: 187 85% 53%;
-    --boredom-purple: 262 83% 58%;
-    --boredom-pink: 330 81% 60%;
-    --boredom-white: 0 0% 100%;
-
-    /* Button glow */
-    --button-glow: 217 33% 35%;
-    --button-ring: 217 33% 40%;
-
-    /* Live indicator */
-    --live-red: 0 84% 50%;
-    --live-green: 142 71% 45%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
