@@ -8,6 +8,7 @@ import {
   GLOW_COLORS,
   KEYCAP_COLORS,
   PROFILES,
+  TOPPERS,
   VOICES,
   WEIGHT_MAX,
   WEIGHT_MIN,
@@ -50,7 +51,7 @@ const ControlPanel = (state: ClickerState) => {
             SENSORY CONTROL
           </h1>
           <p className="mt-1 text-xs text-muted-foreground">
-            Build your clicker. Press it until you feel better.
+            Kopitiam comfort, engineered for your fingertips.
           </p>
         </div>
         <Button variant="ghost" size="icon" onClick={randomize} aria-label="Surprise me">
@@ -130,7 +131,30 @@ const ControlPanel = (state: ClickerState) => {
         </Step>
 
         {/* Step 3 */}
-        <Step index={3} title="SHELL & KEYCAP" subtitle="Dress it up. Changes land on the model instantly.">
+        <Step index={3} title="KOPITIAM COLLECTION" subtitle="Pick your breakfast. No queue, no crumbs, all click.">
+          <div className="mb-5 grid grid-cols-2 gap-2">
+            {TOPPERS.map((topper) => (
+              <Button
+                key={topper.id}
+                type="button"
+                variant="outline"
+                onClick={() => set("topper", topper.id)}
+                className={`h-auto min-h-16 items-start justify-start whitespace-normal px-3 py-2 text-left ${
+                  config.topper === topper.id
+                    ? "border-primary/70 bg-primary/10 text-foreground"
+                    : "border-border/60 bg-background/30 text-muted-foreground"
+                }`}
+              >
+                <span>
+                  <span className="block text-xs font-medium text-foreground">{topper.name}</span>
+                  <span className="mt-1 block text-[10px] leading-tight text-muted-foreground">
+                    {topper.character}
+                  </span>
+                </span>
+              </Button>
+            ))}
+          </div>
+
           <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">Shell finish</p>
           <div className="mb-4 flex flex-wrap gap-2">
             {FINISHES.map((f) => (
@@ -148,37 +172,41 @@ const ControlPanel = (state: ClickerState) => {
             ))}
           </div>
 
-          <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">Keycap colour</p>
-          <div className="mb-4 flex flex-wrap gap-2">
-            {KEYCAP_COLORS.map((c) => (
-              <button
-                key={c}
-                onClick={() => set("keycap", c)}
-                aria-label={`Keycap ${c}`}
-                style={{ backgroundColor: c }}
-                className={`h-7 w-7 rounded-full border-2 transition-transform ${
-                  config.keycap === c ? "scale-110 border-primary" : "border-border/60"
-                }`}
-              />
-            ))}
-          </div>
+          {config.topper === "classic" && (
+            <div className="animate-fade-in">
+              <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">Keycap colour</p>
+              <div className="mb-4 flex flex-wrap gap-2">
+                {KEYCAP_COLORS.map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => set("keycap", c)}
+                    aria-label={`Keycap ${c}`}
+                    style={{ backgroundColor: c }}
+                    className={`h-7 w-7 rounded-full border-2 transition-transform ${
+                      config.keycap === c ? "scale-110 border-primary" : "border-border/60"
+                    }`}
+                  />
+                ))}
+              </div>
 
-          <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">Keycap profile</p>
-          <div className="mb-4 flex gap-2">
-            {PROFILES.map((p) => (
-              <button
-                key={p.id}
-                onClick={() => set("profile", p.id)}
-                className={`flex-1 rounded-lg border px-2 py-1.5 text-xs transition-colors ${
-                  config.profile === p.id
-                    ? "border-primary/70 bg-primary/10 text-foreground"
-                    : "border-border/60 bg-background/30 text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {p.name}
-              </button>
-            ))}
-          </div>
+              <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">Keycap profile</p>
+              <div className="mb-4 flex gap-2">
+                {PROFILES.map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() => set("profile", p.id)}
+                    className={`flex-1 rounded-lg border px-2 py-1.5 text-xs transition-colors ${
+                      config.profile === p.id
+                        ? "border-primary/70 bg-primary/10 text-foreground"
+                        : "border-border/60 bg-background/30 text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {p.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="flex items-center justify-between">
             <span className="text-xs uppercase tracking-widest text-muted-foreground">Underglow</span>

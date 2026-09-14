@@ -103,6 +103,22 @@ export const PROFILES: { id: ProfileId; name: string }[] = [
 
 export const GLOW_COLORS = ["#ff8a3d", "#38d6ff", "#8b6ff2", "#5bc47a", "#ff4d6d"];
 
+export type TopperId = "classic" | "kaya-toast" | "kopi" | "eggs" | "soy-pepper";
+
+export interface Topper {
+  id: TopperId;
+  name: string;
+  character: string;
+}
+
+export const TOPPERS: Topper[] = [
+  { id: "classic", name: "Classic Keycap", character: "The original, no crumbs attached." },
+  { id: "kaya-toast", name: "Kaya Toast", character: "Crisp outside. Green-gold business inside." },
+  { id: "kopi", name: "Kopi Cup", character: "Kopi kao, tiny saucer, maximum productivity." },
+  { id: "eggs", name: "Half-Boiled Eggs", character: "Two wobbly legends with pepper on top." },
+  { id: "soy-pepper", name: "Soy & Pepper", character: "A salty little finishing move." },
+];
+
 export const WEIGHT_MIN = 35;
 export const WEIGHT_MAX = 120;
 
