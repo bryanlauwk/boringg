@@ -17,10 +17,10 @@ const Index = () => {
           />
           <div className="pointer-events-none absolute left-5 top-5">
             <h1 className="font-display text-3xl leading-none tracking-wide text-foreground md:text-4xl">
-              CLICKER LAB
+              KOPITIAM CLICKER LAB
             </h1>
             <p className="mt-1 text-xs text-muted-foreground">
-              Drag your cursor to tilt it. Click or hit space to press.
+              Breakfast is served. Click or hit space to press.
             </p>
           </div>
         </div>
