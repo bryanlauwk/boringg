@@ -5,6 +5,8 @@ import {
   KEYCAP_COLORS,
   PROFILES,
   ProfileId,
+  TOPPERS,
+  TopperId,
   VOICES,
   VoiceId,
   WEIGHT_MAX,
@@ -18,6 +20,7 @@ export interface ClickerConfig {
   finish: string;
   keycap: string;
   profile: ProfileId;
+  topper: TopperId;
   glow: boolean;
   glowColor: string;
 }
@@ -31,6 +34,7 @@ export const useClickerConfig = () => {
     finish: "aluminium",
     keycap: KEYCAP_COLORS[0],
     profile: "domed",
+    topper: "kaya-toast",
     glow: false,
     glowColor: GLOW_COLORS[0],
   });
@@ -79,6 +83,7 @@ export const useClickerConfig = () => {
       finish: pick(FINISHES).id,
       keycap: pick(KEYCAP_COLORS),
       profile: pick(PROFILES).id,
+      topper: pick(TOPPERS).id,
       glow: Math.random() > 0.5,
       glowColor: pick(GLOW_COLORS),
     };
