@@ -11,24 +11,24 @@ const Ceramic = ({ color = "#eee7d9" }: { color?: string }) => (
   <meshStandardMaterial color={color} roughness={0.28} metalness={0.04} />
 );
 
-const ClassicTopper = ({ color, profile }: Pick<Props, "keycapColor" | "profile">) => (
+const ClassicTopper = ({ keycapColor, profile }: Pick<Props, "keycapColor" | "profile">) => (
   <>
     <mesh position={[0, 0.66, 0]} castShadow>
       <cylinderGeometry
         args={[profile === "dish" ? 0.94 : 0.88, 0.86, profile === "flat" ? 0.26 : 0.34, 64]}
       />
-      <meshStandardMaterial color={color} roughness={0.42} metalness={0.05} />
+      <meshStandardMaterial color={keycapColor} roughness={0.42} metalness={0.05} />
     </mesh>
     {profile === "domed" && (
       <mesh position={[0, 0.8, 0]} castShadow scale={[1, 0.42, 1]}>
         <sphereGeometry args={[0.88, 48, 24]} />
-        <meshStandardMaterial color={color} roughness={0.4} metalness={0.05} />
+        <meshStandardMaterial color={keycapColor} roughness={0.4} metalness={0.05} />
       </mesh>
     )}
     {profile === "dish" && (
       <mesh position={[0, 0.84, 0]} scale={[1, 0.35, 1]}>
         <sphereGeometry args={[0.78, 48, 24]} />
-        <meshStandardMaterial color={color} roughness={0.55} metalness={0.05} side={THREE.BackSide} />
+        <meshStandardMaterial color={keycapColor} roughness={0.55} metalness={0.05} side={THREE.BackSide} />
       </mesh>
     )}
   </>
