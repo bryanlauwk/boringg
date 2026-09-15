@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Space Grotesk', 'sans-serif'],
-        display: ['Bebas Neue', 'sans-serif'],
+        sans: ['ui-rounded', 'Arial Rounded MT Bold', 'Trebuchet MS', 'sans-serif'],
+        display: ['ui-rounded', 'Arial Rounded MT Bold', 'Trebuchet MS', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -51,6 +51,14 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        machine: {
+          DEFAULT: "hsl(var(--machine))",
+          frame: "hsl(var(--machine-frame))",
+          label: "hsl(var(--machine-label))",
+          ink: "hsl(var(--machine-ink))",
+          glass: "hsl(var(--machine-glass))",
+        },
+        tray: "hsl(var(--tray))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -66,6 +74,10 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      boxShadow: {
+        toy: "0 8px 0 hsl(var(--toy-shadow))",
+        "toy-sm": "0 4px 0 hsl(var(--toy-shadow))",
       },
       keyframes: {
         "accordion-down": {
