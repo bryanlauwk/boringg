@@ -103,36 +103,6 @@ export const PROFILES: { id: ProfileId; name: string }[] = [
 
 export const GLOW_COLORS = ["#ff8a3d", "#38d6ff", "#8b6ff2", "#5bc47a", "#ff4d6d"];
 
-export type TopperId =
-  | "classic"
-  | "kaya-toast"
-  | "kopi"
-  | "eggs"
-  | "soy-pepper"
-  | "ang-ku"
-  | "peach-bun"
-  | "siu-mai"
-  | "nasi-lemak";
-
-export interface Topper {
-  id: TopperId;
-  name: string;
-  character: string;
-  badge: string;
-}
-
-export const TOPPERS: Topper[] = [
-  { id: "kaya-toast", name: "Kaya Toast", character: "Crisp outside. Green-gold business inside.", badge: "KAYA" },
-  { id: "kopi", name: "Kopi O", character: "Tiny cup. Industrial-strength opinions.", badge: "KOPI" },
-  { id: "eggs", name: "Egg Cup", character: "Two wobbly legends. Handle with confidence.", badge: "EGGS" },
-  { id: "nasi-lemak", name: "Nasi Lemak", character: "Banana-leaf armour. Sambal-powered spring.", badge: "NASI" },
-  { id: "ang-ku", name: "Ang Ku Kuih", character: "Red, lucky and suspiciously clickable.", badge: "AKK" },
-  { id: "peach-bun", name: "Peach Bun", character: "Longevity, now available per click.", badge: "BUN" },
-  { id: "siu-mai", name: "Siu Mai", character: "Small basket. Huge mechanical ambition.", badge: "MAI" },
-  { id: "soy-pepper", name: "Soy & Pepper", character: "A salty little finishing move.", badge: "SOY" },
-  { id: "classic", name: "Classic", character: "The original. No crumbs attached.", badge: "OG" },
-];
-
 export const WEIGHT_MIN = 35;
 export const WEIGHT_MAX = 120;
 

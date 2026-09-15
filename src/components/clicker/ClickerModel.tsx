@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { ClickerConfig } from "@/hooks/useClickerConfig";
 import { FINISHES, weightRatio } from "@/lib/clickerPresets";
-import KopitiamTopper from "./KopitiamTopper";
 
 interface Props {
   config: ClickerConfig;
@@ -147,11 +146,36 @@ const ClickerModel = ({ config, pressTick, onPress }: Props) => {
 
       {/* keycap */}
       <group ref={cap} position={[0, 0, 0]}>
-        <KopitiamTopper
-          topper={config.topper}
-          keycapColor={config.keycap}
-          profile={config.profile}
-        />
+        <mesh position={[0, 0.66, 0]} castShadow>
+          <cylinderGeometry
+            args={[
+              config.profile === "dish" ? 0.94 : 0.88,
+              0.86,
+              config.profile === "flat" ? 0.26 : 0.34,
+              64,
+            ]}
+          />
+          <meshStandardMaterial color={config.keycap} roughness={0.42} metalness={0.05} />
+        </mesh>
+
+        {config.profile === "domed" && (
+          <mesh position={[0, 0.8, 0]} castShadow scale={[1, 0.42, 1]}>
+            <sphereGeometry args={[0.88, 48, 24]} />
+            <meshStandardMaterial color={config.keycap} roughness={0.4} metalness={0.05} />
+          </mesh>
+        )}
+
+        {config.profile === "dish" && (
+          <mesh position={[0, 0.84, 0]} scale={[1, 0.35, 1]}>
+            <sphereGeometry args={[0.78, 48, 24]} />
+            <meshStandardMaterial
+              color={config.keycap}
+              roughness={0.55}
+              metalness={0.05}
+              side={THREE.BackSide}
+            />
+          </mesh>
+        )}
       </group>
 
       {/* shockwave */}
