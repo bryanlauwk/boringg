@@ -1,4 +1,4 @@
-import { Shuffle, Volume2, VolumeX } from "lucide-react";
+import { Shuffle, Sparkles, Volume2, VolumeX } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
@@ -12,232 +12,240 @@ import {
   VOICES,
   WEIGHT_MAX,
   WEIGHT_MIN,
-  weightBlurb,
   weightName,
 } from "@/lib/clickerPresets";
 
-const Step = ({
-  index,
-  title,
-  subtitle,
-  children,
-}: {
-  index: number;
-  title: string;
-  subtitle: string;
-  children: React.ReactNode;
-}) => (
-  <section className="border-b border-border/60 px-5 py-5 last:border-b-0">
-    <header className="mb-3 flex items-baseline gap-2">
-      <span className="font-display text-sm tracking-widest text-primary">0{index}</span>
-      <div>
-        <h2 className="font-display text-xl leading-none tracking-wide text-foreground">{title}</h2>
-        <p className="mt-1 text-xs text-muted-foreground">{subtitle}</p>
-      </div>
-    </header>
-    {children}
-  </section>
-);
+const shelfColors = [
+  "bg-primary text-primary-foreground",
+  "bg-accent text-accent-foreground",
+  "bg-popover text-popover-foreground",
+];
 
 const ControlPanel = (state: ClickerState) => {
   const { config, set, volume, setVolume, muted, setMuted, presses, bestStreak, preview, randomize } =
     state;
+  const selected = TOPPERS.find((topper) => topper.id === config.topper) ?? TOPPERS[0];
 
   return (
-    <aside className="flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/40 backdrop-blur-xl">
-      <div className="flex items-center justify-between border-b border-border/60 px-5 py-4">
+    <aside className="toy-machine flex h-full flex-col overflow-hidden rounded-[2rem] border-[10px] border-machine-frame bg-card text-card-foreground">
+      <header className="flex shrink-0 items-center justify-between border-b-4 border-machine-frame bg-machine px-4 py-3 md:px-5">
         <div>
-          <h1 className="font-display text-2xl leading-none tracking-wide text-foreground">
-            SENSORY CONTROL
-          </h1>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Kopitiam comfort, engineered for your fingertips.
-          </p>
+          <p className="text-[10px] font-black uppercase tracking-[0.18em] opacity-70">Clicker Lab presents</p>
+          <h2 className="font-display text-2xl leading-none md:text-3xl">MAKAN MACHINE</h2>
         </div>
-        <Button variant="ghost" size="icon" onClick={randomize} aria-label="Surprise me">
+        <Button
+          variant="default"
+          size="icon"
+          onClick={randomize}
+          aria-label="Surprise me"
+          title="Surprise me"
+          className="shrink-0 rounded-xl border-2 border-machine-frame shadow-toy-sm active:translate-y-1 active:shadow-none"
+        >
           <Shuffle className="h-4 w-4" />
         </Button>
-      </div>
+      </header>
 
-      <div className="flex-1 overflow-y-auto">
-        {/* Step 1 */}
-        <Step index={1} title="THE ACOUSTIC ENGINE" subtitle="Pick a switch voice. Every one is synthesised live.">
-          <div className="grid gap-2">
-            {VOICES.map((v) => {
-              const active = config.voice === v.id;
+      <div className="flex-1 overflow-y-auto overscroll-contain">
+        <section className="border-b-4 border-machine-frame bg-machine px-4 py-4 md:px-5">
+          <div className="mb-3 flex items-end justify-between gap-3">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] opacity-70">Your tray</p>
+              <h3 className="font-display text-xl leading-none">PICK YOUR SNACK</h3>
+            </div>
+            <span className="rounded-full bg-machine-frame px-3 py-1 text-[10px] font-black uppercase tracking-widest text-machine-label">
+              {TOPPERS.length} served
+            </span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            {TOPPERS.map((topper, index) => {
+              const active = config.topper === topper.id;
               return (
-                <button
-                  key={v.id}
-                  onClick={() => {
-                    set("voice", v.id);
-                    preview(v.id, config.weight);
-                  }}
-                  className={`rounded-xl border px-3 py-2 text-left transition-colors ${
+                <Button
+                  key={topper.id}
+                  type="button"
+                  variant="ghost"
+                  onClick={() => set("topper", topper.id)}
+                  aria-pressed={active}
+                  className={`group h-[74px] flex-col gap-1 rounded-xl border-2 px-1 py-2 shadow-toy-sm transition-transform hover:-translate-y-0.5 active:translate-y-1 active:shadow-none ${
                     active
-                      ? "border-primary/70 bg-primary/10"
-                      : "border-border/60 bg-background/30 hover:border-muted-foreground/50"
+                      ? "border-primary bg-machine-frame text-machine-label"
+                      : `border-machine-frame ${shelfColors[index % shelfColors.length]}`
                   }`}
                 >
-                  <span className="block text-sm font-medium text-foreground">{v.name}</span>
-                  <span className="block text-xs text-muted-foreground">{v.character}</span>
-                </button>
+                  <span className="font-display text-lg leading-none">{topper.badge}</span>
+                  <span className="max-w-full truncate text-[9px] font-black uppercase">{topper.name}</span>
+                </Button>
               );
             })}
           </div>
 
-          <div className="mt-4 flex items-center gap-3">
+          <div className="mt-3 flex items-start gap-2 rounded-xl bg-machine-glass px-3 py-2">
+            <Sparkles className="mt-0.5 h-4 w-4 shrink-0" />
+            <p className="text-xs font-semibold leading-snug">{selected.character}</p>
+          </div>
+        </section>
+
+        <section className="border-b-4 border-machine-frame bg-popover px-4 py-4 md:px-5">
+          <div className="mb-3 flex items-center justify-between">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Switch sound</p>
+              <h3 className="font-display text-xl leading-none">CHOOSE YOUR THOCK</h3>
+            </div>
             <Button
-              variant="ghost"
+              variant="outline"
               size="icon"
               onClick={() => setMuted(!muted)}
               aria-label={muted ? "Unmute" : "Mute"}
+              className="rounded-xl border-2 border-machine-frame"
             >
               {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
             </Button>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            {VOICES.map((voice) => (
+              <Button
+                key={voice.id}
+                variant="outline"
+                onClick={() => {
+                  set("voice", voice.id);
+                  preview(voice.id, config.weight);
+                }}
+                className={`h-9 rounded-full border-2 px-2 text-[10px] font-black uppercase ${
+                  config.voice === voice.id
+                    ? "border-machine-frame bg-primary text-primary-foreground"
+                    : "border-border bg-background text-foreground"
+                }`}
+              >
+                {voice.name.replace(/\s(Blue|Brown|Red|Marble|Silver|Buckling)$/, "")}
+              </Button>
+            ))}
+          </div>
+          <div className="mt-3 flex items-center gap-3">
+            <Volume2 className="h-4 w-4 shrink-0 text-muted-foreground" />
             <Slider
               value={[muted ? 0 : volume * 100]}
-              onValueChange={([v]) => {
-                setVolume(v / 100);
-                if (muted && v > 0) setMuted(false);
+              onValueChange={([value]) => {
+                setVolume(value / 100);
+                if (muted && value > 0) setMuted(false);
               }}
               max={100}
               step={1}
               aria-label="Volume"
             />
           </div>
-        </Step>
+        </section>
 
-        {/* Step 2 */}
-        <Step index={2} title="TACTILE RESISTANCE" subtitle="Spring weight changes the feel, the sound and the thud.">
+        <section className="border-b-4 border-machine-frame bg-secondary px-4 py-4 text-secondary-foreground md:px-5">
           <div className="mb-3 flex items-end justify-between">
-            <span className="font-display text-3xl leading-none text-foreground">
-              {config.weight}
-              <span className="ml-1 text-base text-muted-foreground">g</span>
-            </span>
-            <span className="rounded-full border border-border/60 px-3 py-1 text-xs uppercase tracking-widest text-muted-foreground">
-              {weightName(config.weight)}
-            </span>
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] opacity-70">Spring resistance</p>
+              <h3 className="font-display text-xl leading-none">CRANK THE WEIGHT</h3>
+            </div>
+            <div className="text-right">
+              <span className="font-display text-3xl leading-none">{config.weight}g</span>
+              <p className="text-[9px] font-black uppercase tracking-widest opacity-70">{weightName(config.weight)}</p>
+            </div>
           </div>
           <Slider
             value={[config.weight]}
-            onValueChange={([v]) => set("weight", v)}
-            onValueCommit={([v]) => preview(config.voice, v)}
+            onValueChange={([value]) => set("weight", value)}
+            onValueCommit={([value]) => preview(config.voice, value)}
             min={WEIGHT_MIN}
             max={WEIGHT_MAX}
             step={1}
             aria-label="Spring weight"
           />
-          <p className="mt-3 text-xs text-muted-foreground">{weightBlurb(config.weight)}</p>
-        </Step>
+        </section>
 
-        {/* Step 3 */}
-        <Step index={3} title="KOPITIAM COLLECTION" subtitle="Pick your breakfast. No queue, no crumbs, all click.">
-          <div className="mb-5 grid grid-cols-2 gap-2">
-            {TOPPERS.map((topper) => (
+        <section className="bg-popover px-4 py-4 md:px-5">
+          <div className="mb-3 flex items-center justify-between">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Machine body</p>
+              <h3 className="font-display text-xl leading-none">DRESS THE BASE</h3>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-black uppercase">Glow</span>
+              <Switch checked={config.glow} onCheckedChange={(value) => set("glow", value)} />
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {FINISHES.map((finish) => (
               <Button
-                key={topper.id}
-                type="button"
+                key={finish.id}
                 variant="outline"
-                onClick={() => set("topper", topper.id)}
-                className={`h-auto min-h-16 items-start justify-start whitespace-normal px-3 py-2 text-left ${
-                  config.topper === topper.id
-                    ? "border-primary/70 bg-primary/10 text-foreground"
-                    : "border-border/60 bg-background/30 text-muted-foreground"
+                onClick={() => set("finish", finish.id)}
+                className={`h-8 rounded-lg border-2 px-2 text-[10px] font-black uppercase ${
+                  config.finish === finish.id
+                    ? "border-machine-frame bg-machine-frame text-machine-label"
+                    : "border-border bg-background"
                 }`}
               >
-                <span>
-                  <span className="block text-xs font-medium text-foreground">{topper.name}</span>
-                  <span className="mt-1 block text-[10px] leading-tight text-muted-foreground">
-                    {topper.character}
-                  </span>
-                </span>
+                {finish.name.replace(/^(Brushed|Matte|Polished|Translucent|Glossy) /, "")}
               </Button>
             ))}
           </div>
 
-          <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">Shell finish</p>
-          <div className="mb-4 flex flex-wrap gap-2">
-            {FINISHES.map((f) => (
-              <button
-                key={f.id}
-                onClick={() => set("finish", f.id)}
-                className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${
-                  config.finish === f.id
-                    ? "border-primary/70 bg-primary/10 text-foreground"
-                    : "border-border/60 bg-background/30 text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {f.name}
-              </button>
-            ))}
-          </div>
-
           {config.topper === "classic" && (
-            <div className="animate-fade-in">
-              <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">Keycap colour</p>
-              <div className="mb-4 flex flex-wrap gap-2">
-                {KEYCAP_COLORS.map((c) => (
-                  <button
-                    key={c}
-                    onClick={() => set("keycap", c)}
-                    aria-label={`Keycap ${c}`}
-                    style={{ backgroundColor: c }}
-                    className={`h-7 w-7 rounded-full border-2 transition-transform ${
-                      config.keycap === c ? "scale-110 border-primary" : "border-border/60"
-                    }`}
-                  />
+            <div className="mt-3 grid gap-3 border-t-2 border-border pt-3">
+              <div className="flex flex-wrap gap-2">
+                {KEYCAP_COLORS.map((color, index) => (
+                  <Button
+                    key={color}
+                    variant={config.keycap === color ? "default" : "outline"}
+                    size="icon"
+                    onClick={() => set("keycap", color)}
+                    aria-label={`Keycap colour ${index + 1}`}
+                    className="h-7 w-7 rounded-full border-2 border-machine-frame"
+                  >
+                    <span className="text-[8px]">{index + 1}</span>
+                  </Button>
                 ))}
               </div>
-
-              <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">Keycap profile</p>
-              <div className="mb-4 flex gap-2">
-                {PROFILES.map((p) => (
-                  <button
-                    key={p.id}
-                    onClick={() => set("profile", p.id)}
-                    className={`flex-1 rounded-lg border px-2 py-1.5 text-xs transition-colors ${
-                      config.profile === p.id
-                        ? "border-primary/70 bg-primary/10 text-foreground"
-                        : "border-border/60 bg-background/30 text-muted-foreground hover:text-foreground"
-                    }`}
+              <div className="grid grid-cols-3 gap-2">
+                {PROFILES.map((profile) => (
+                  <Button
+                    key={profile.id}
+                    variant={config.profile === profile.id ? "default" : "outline"}
+                    onClick={() => set("profile", profile.id)}
+                    className="h-8 rounded-lg border-2 text-[10px] uppercase"
                   >
-                    {p.name}
-                  </button>
+                    {profile.name}
+                  </Button>
                 ))}
               </div>
             </div>
           )}
 
-          <div className="flex items-center justify-between">
-            <span className="text-xs uppercase tracking-widest text-muted-foreground">Underglow</span>
-            <Switch checked={config.glow} onCheckedChange={(v) => set("glow", v)} />
-          </div>
           {config.glow && (
-            <div className="mt-3 flex gap-2">
-              {GLOW_COLORS.map((c) => (
-                <button
-                  key={c}
-                  onClick={() => set("glowColor", c)}
-                  aria-label={`Glow ${c}`}
-                  style={{ backgroundColor: c }}
-                  className={`h-6 w-6 rounded-full border-2 transition-transform ${
-                    config.glowColor === c ? "scale-110 border-primary" : "border-border/60"
-                  }`}
-                />
+            <div className="mt-3 flex gap-2 border-t-2 border-border pt-3">
+              {GLOW_COLORS.map((color, index) => (
+                <Button
+                  key={color}
+                  variant={config.glowColor === color ? "default" : "outline"}
+                  size="icon"
+                  onClick={() => set("glowColor", color)}
+                  aria-label={`Glow colour ${index + 1}`}
+                  className="h-7 w-7 rounded-full border-2 border-machine-frame"
+                >
+                  <span className="text-[8px]">{index + 1}</span>
+                </Button>
               ))}
             </div>
           )}
-        </Step>
+        </section>
       </div>
 
-      <footer className="grid grid-cols-2 gap-3 border-t border-border/60 px-5 py-4">
-        <div>
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">Presses</p>
-          <p className="font-display text-2xl leading-none text-foreground">{presses}</p>
+      <footer className="grid shrink-0 grid-cols-2 border-t-4 border-machine-frame bg-machine-frame text-machine-label">
+        <div className="border-r border-machine-label/20 px-5 py-3">
+          <p className="text-[9px] font-black uppercase tracking-[0.18em] opacity-70">Total taps</p>
+          <p className="font-display text-2xl leading-none">{presses.toLocaleString()}</p>
         </div>
-        <div>
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">Best / 10s</p>
-          <p className="font-display text-2xl leading-none text-foreground">{bestStreak}</p>
+        <div className="px-5 py-3">
+          <p className="text-[9px] font-black uppercase tracking-[0.18em] opacity-70">Best in 10s</p>
+          <p className="font-display text-2xl leading-none">{bestStreak}</p>
         </div>
       </footer>
     </aside>
