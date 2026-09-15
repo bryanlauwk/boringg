@@ -126,11 +126,89 @@ const SoyPepper = () => (
   </group>
 );
 
+const AngKuKuih = () => (
+  <group position={[0, 0.72, 0]}>
+    <mesh scale={[1.05, 0.35, 0.82]} castShadow>
+      <sphereGeometry args={[0.76, 32, 18]} />
+      <meshStandardMaterial color="#c92f37" roughness={0.58} />
+    </mesh>
+    {[0, Math.PI / 2, Math.PI / 4, -Math.PI / 4].map((rotation) => (
+      <mesh key={rotation} position={[0, 0.28, 0]} rotation={[Math.PI / 2, 0, rotation]}>
+        <torusGeometry args={[0.34, 0.035, 8, 24]} />
+        <meshStandardMaterial color="#8f1f2a" roughness={0.7} />
+      </mesh>
+    ))}
+    <mesh position={[0, -0.2, 0]} scale={[1.12, 0.08, 0.9]} receiveShadow>
+      <cylinderGeometry args={[0.72, 0.78, 0.18, 32]} />
+      <meshStandardMaterial color="#197258" roughness={0.85} />
+    </mesh>
+  </group>
+);
+
+const PeachBun = () => (
+  <group position={[0, 0.72, 0]}>
+    <mesh scale={[0.88, 0.72, 0.88]} castShadow>
+      <sphereGeometry args={[0.72, 32, 20]} />
+      <meshStandardMaterial color="#f2d6bf" roughness={0.72} />
+    </mesh>
+    <mesh position={[0.48, 0.26, 0]} rotation-z={-0.72} scale={[0.22, 0.42, 0.12]} castShadow>
+      <sphereGeometry args={[0.7, 20, 12]} />
+      <meshStandardMaterial color="#f39ac1" roughness={0.64} />
+    </mesh>
+    <mesh position={[-0.48, 0.26, 0]} rotation-z={0.72} scale={[0.22, 0.42, 0.12]} castShadow>
+      <sphereGeometry args={[0.7, 20, 12]} />
+      <meshStandardMaterial color="#f39ac1" roughness={0.64} />
+    </mesh>
+  </group>
+);
+
+const SiuMai = () => (
+  <group position={[0, 0.69, 0]}>
+    <mesh scale={[0.78, 0.7, 0.78]} castShadow>
+      <cylinderGeometry args={[0.58, 0.7, 1, 14]} />
+      <meshStandardMaterial color="#f0b32c" roughness={0.7} flatShading />
+    </mesh>
+    <mesh position={[0, 0.48, 0]} scale={[0.63, 0.16, 0.63]} castShadow>
+      <sphereGeometry args={[0.65, 20, 12]} />
+      <meshStandardMaterial color="#e77c31" roughness={0.58} />
+    </mesh>
+    <mesh position={[0.05, 0.61, -0.02]} scale={[0.16, 0.1, 0.16]}>
+      <sphereGeometry args={[0.5, 16, 10]} />
+      <meshStandardMaterial color="#e2b64a" roughness={0.6} />
+    </mesh>
+  </group>
+);
+
+const NasiLemak = () => (
+  <group position={[0, 0.64, 0]} rotation-y={-0.16}>
+    <mesh position={[0, -0.05, 0]} scale={[1.25, 0.15, 0.95]} castShadow>
+      <cylinderGeometry args={[0.78, 0.86, 0.2, 6]} />
+      <meshStandardMaterial color="#18735a" roughness={0.84} />
+    </mesh>
+    <mesh position={[0, 0.38, 0]} castShadow>
+      <coneGeometry args={[0.67, 0.9, 32]} />
+      <meshStandardMaterial color="#f2eee1" roughness={0.82} />
+    </mesh>
+    <mesh position={[0.42, 0.19, 0.15]} scale={[0.38, 0.14, 0.3]} castShadow>
+      <sphereGeometry args={[0.55, 20, 12]} />
+      <meshStandardMaterial color="#a8282b" roughness={0.63} />
+    </mesh>
+    <mesh position={[-0.45, 0.18, 0.08]} scale={[0.35, 0.09, 0.28]} castShadow>
+      <sphereGeometry args={[0.6, 20, 12]} />
+      <meshStandardMaterial color="#e5ba42" roughness={0.55} />
+    </mesh>
+  </group>
+);
+
 const KopitiamTopper = ({ topper, keycapColor, profile }: Props) => {
   if (topper === "kaya-toast") return <KayaToast />;
   if (topper === "kopi") return <KopiCup />;
   if (topper === "eggs") return <Eggs />;
   if (topper === "soy-pepper") return <SoyPepper />;
+  if (topper === "ang-ku") return <AngKuKuih />;
+  if (topper === "peach-bun") return <PeachBun />;
+  if (topper === "siu-mai") return <SiuMai />;
+  if (topper === "nasi-lemak") return <NasiLemak />;
   return <ClassicTopper keycapColor={keycapColor} profile={profile} />;
 };
 
