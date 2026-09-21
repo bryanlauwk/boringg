@@ -1,43 +1,79 @@
-import { useState } from "react";
-import { ArrowDown, ArrowUpRight, Shuffle, Volume2, VolumeX, X } from "lucide-react";
-import ClickerCanvas from "@/components/clicker/ClickerCanvas";
-import ControlPanel from "@/components/clicker/ControlPanel";
-import { useClickerConfig } from "@/hooks/useClickerConfig";
+import { Component, lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { playPress } from "@/lib/swoleAudio";
+
+const SwoleToy = lazy(() => import("@/components/SwoleToy"));
+const LIMIT = 24;
+
+class ToyBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  render() { return this.state.failed ? <div className="toy-fallback" aria-hidden="true"><span /></div> : this.props.children; }
+}
 
 export default function Index() {
-  const state = useClickerConfig();
-  const [customizing, setCustomizing] = useState(false);
+  const [presses, setPresses] = useState(0);
+  const [tick, setTick] = useState(0);
+  const [squeak, setSqueak] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const count = useRef(0);
+  const resetUntil = useRef(0);
+  const timer = useRef<ReturnType<typeof setTimeout>>();
+  useEffect(() => {
+    const query = matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReducedMotion(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => { query.removeEventListener("change", update); clearTimeout(timer.current); };
+  }, []);
+  const press = useCallback(() => {
+    if (performance.now() < resetUntil.current) return;
+    const next = count.current + 1;
+    const reset = next > LIMIT;
+    count.current = reset ? 0 : next;
+    setPresses(count.current);
+    setTick(t => t + 1);
+    setSqueak(reset);
+    try { playPress(next / LIMIT, reset); } catch { /* The toy also works without audio. */ }
+    clearTimeout(timer.current);
+    if (reset) {
+      resetUntil.current = performance.now() + 900;
+      timer.current = setTimeout(() => setSqueak(false), 1800);
+    }
+  }, []);
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.code !== "Space" || event.repeat || event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.target instanceof HTMLElement && event.target.closest("button, a, input, textarea, select, [contenteditable]")) return;
+      event.preventDefault();
+      press();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [press]);
   return (
-    <main className="playground">
-      <header className="site-header">
-        <a className="wordmark" href="/" aria-label="boringg home">boringg<span>✳</span></a>
-        <span className="header-note">A SMALL BREAK FROM EVERYTHING.</span>
-        <button className="sound-button" onClick={() => state.setMuted(!state.muted)} aria-label={state.muted ? "Turn sound on" : "Mute sound"}>
-          {state.muted ? <VolumeX size={17} /> : <Volume2 size={17} />}<span>sound {state.muted ? "off" : "on"}</span>
-        </button>
+    <main className={`nothing-page mood-${squeak ? "reset" : presses >= 18 ? "huge" : presses >= 9 ? "growing" : "small"}`}>
+      <header className="masthead">
+        <a href="/" className="brand" aria-label="boringg home">boringg<span className="brand-flower" aria-hidden="true">✳</span></a>
+        <span className="edition">A VERY SERIOUS WASTE OF TIME™</span>
+        <span className="corner-smile" aria-hidden="true">☺</span>
       </header>
-      <section className="hero" aria-labelledby="hero-title">
-        <div className="hero-copy">
-          <p className="eyebrow"><span className="status-dot" /> ZERO PURPOSE. VERY GOOD FEELING.</p>
-          <h1 id="hero-title">Less doing.<br />More <span>nothing.</span><svg viewBox="0 0 350 18" aria-hidden="true"><path d="M5 12 Q160 -2 342 9 M18 16 Q175 5 318 14" /></svg></h1>
-          <p className="intro">A little button for your very busy brain.<br />Give it a press. That’s the whole thing.</p>
-          <button className="press-button" onClick={state.press}>I’m bored. <ArrowUpRight size={22} /></button>
-          <p className="keyboard-hint">or press <kbd>space</kbd> · headphones encouraged</p>
-          <div className="small-note">↳ No goals. No streak to lose.<br /><span>You’re doing wonderfully nothing.</span></div>
-        </div>
-        <div className="toy-stage">
-          <div className="stage-top"><span>THE NOTHING MACHINE</span><span>NO. 001</span></div>
-          <div className="toy-canvas"><ClickerCanvas config={state.config} pressTick={state.pressTick} onPress={state.press} /></div>
-          <div className="toy-sticker">100%<span>pleasantly<br />pointless</span></div>
-          <div className="stage-bottom"><span>✳ &nbsp; made to be pressed</span><span>move to admire ↔</span></div>
-        </div>
-      </section>
-      <section className="play-bar" aria-label="Your play session">
-        <div className="counter"><span className="counter-number">{String(state.presses).padStart(3, "0")}</span><div>little moments of nothing<span>{state.presses ? "Time well wasted." : "Your first one is on us."}</span></div></div>
-        <div className="play-actions"><button onClick={state.randomize}><Shuffle size={17} /> Surprise me</button><button className="customize" aria-expanded={customizing} aria-controls="customizer" onClick={() => setCustomizing(!customizing)}>Make it yours {customizing ? <X size={17} /> : <ArrowDown size={17} />}</button></div>
-      </section>
-      {customizing && <section id="customizer" className="customizer"><ControlPanel {...state} /></section>}
-      <footer className="site-footer"><span>IN A WORLD OF MORE, HERE’S A LITTLE LESS.</span><span>An experiment in doing absolutely nothing. <span className="footer-flower">✳</span></span></footer>
+      <div className="poster-copy"><span className="eyebrow">ONE BUTTON. ZERO REASONS.</span><h1>press me.</h1></div>
+      <span className="side-note" aria-hidden="true">100% UNNECESSARY / 100% YES</span>
+      <div className="doodle doodle-left" aria-hidden="true">✳</div>
+      <div className="doodle doodle-right" aria-hidden="true">✦</div>
+      <div className="toy-orbit" aria-hidden="true" />
+      <span className="sticker" aria-hidden="true">DO NOT<br /><strong>OVERTHINK</strong><br />THE BUTTON.</span>
+      <button className="toy-hit" onClick={press} aria-label="Press the button" style={{ "--growth": presses / LIMIT } as React.CSSProperties}>
+        <ToyBoundary>
+          <Suspense fallback={<div className="toy-fallback" aria-hidden="true"><span /></div>}>
+            <SwoleToy growth={presses / LIMIT} tick={tick} tiny={squeak} reducedMotion={reducedMotion} />
+          </Suspense>
+        </ToyBoundary>
+        {tick > 0 && !squeak && <span key={tick} className="comic-pop" aria-hidden="true">{presses >= 18 ? "ABSOLUTE UNIT." : presses >= 9 ? "OH. HELLO." : ["boop!", "again!", "nice.", "bonk!"][presses % 4]}</span>}
+        <span className={squeak ? "squeak visible" : "squeak"} aria-hidden="true">squeak.<svg viewBox="0 0 50 40"><path d="M46 3Q15 4 8 32m-4-9 4 9 10-4" /></svg></span>
+      </button>
+      <span className="sr-only" role="status">{squeak ? "Squeak! Tiny again." : presses === LIMIT ? "One more press." : ""}</span>
+      <footer className="poster-footer"><span>CLICK IT. THAT’S IT.</span><span className="key-hint">your spacebar works too ↗</span><span>PROUDLY POINTLESS. <b aria-hidden="true">✳</b></span></footer>
     </main>
   );
 }
