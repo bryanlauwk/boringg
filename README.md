@@ -13,7 +13,9 @@ npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:8087. Click or tap the toy, or press Space. The first 24 presses grow the toy; the 25th resets it. The 900 ms cooldown lets the reset land.
+Open the URL printed by Vite (port 8080 by default). Hosted previews use the network-accessible server and `npm run build:dev`. For a separate local instance, use `npm run dev -- --host 127.0.0.1 --port 8087`.
+
+Click or tap the toy, or press Space. The first 24 presses grow the toy; the 25th resets it. The 900 ms cooldown lets the reset land.
 
 ## Checks
 

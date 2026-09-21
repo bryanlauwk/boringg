@@ -3,7 +3,8 @@ import react from "@vitejs/plugin-react-swc";
 import { fileURLToPath } from "node:url";
 
 export default defineConfig({
-  server: { host: "127.0.0.1", port: 8087, strictPort: true },
+  // Hosted previews connect from outside the process and expect Vite on 8080.
+  server: { host: "0.0.0.0", port: 8080 },
   plugins: [react()],
   resolve: { alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) } },
 });
