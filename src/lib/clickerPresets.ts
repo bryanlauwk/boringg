@@ -75,6 +75,9 @@ export interface Finish {
 }
 
 export const FINISHES: Finish[] = [
+  { id: "cream", name: "Oat Milk", color: "#ede4cc", metalness: 0.05, roughness: 0.48 },
+  { id: "sage", name: "Soft Sage", color: "#a9b697", metalness: 0.05, roughness: 0.55 },
+  { id: "lilac", name: "Lilac", color: "#bbb0d0", metalness: 0.05, roughness: 0.5 },
   { id: "aluminium", name: "Brushed Aluminium", color: "#b9bec4", metalness: 1, roughness: 0.32 },
   { id: "charcoal", name: "Matte Charcoal", color: "#2a2c31", metalness: 0.25, roughness: 0.78 },
   { id: "brass", name: "Polished Brass", color: "#c9962f", metalness: 1, roughness: 0.14 },

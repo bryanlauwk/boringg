@@ -47,10 +47,10 @@ const ControlPanel = (state: ClickerState) => {
       <div className="flex items-center justify-between border-b border-border/60 px-5 py-4">
         <div>
           <h1 className="font-display text-2xl leading-none tracking-wide text-foreground">
-            SENSORY CONTROL
+            A little more you.
           </h1>
           <p className="mt-1 text-xs text-muted-foreground">
-            Build your clicker. Press it until you feel better.
+            Find your favourite kind of nothing.
           </p>
         </div>
         <Button variant="ghost" size="icon" onClick={randomize} aria-label="Surprise me">
@@ -60,7 +60,7 @@ const ControlPanel = (state: ClickerState) => {
 
       <div className="flex-1 overflow-y-auto">
         {/* Step 1 */}
-        <Step index={1} title="THE ACOUSTIC ENGINE" subtitle="Pick a switch voice. Every one is synthesised live.">
+        <Step index={1} title="Sounds good." subtitle="From a soft thock to a very satisfying click.">
           <div className="grid gap-2">
             {VOICES.map((v) => {
               const active = config.voice === v.id;
@@ -107,7 +107,7 @@ const ControlPanel = (state: ClickerState) => {
         </Step>
 
         {/* Step 2 */}
-        <Step index={2} title="TACTILE RESISTANCE" subtitle="Spring weight changes the feel, the sound and the thud.">
+        <Step index={2} title="Light or heavy?" subtitle="Tune the sound and bounce of every press.">
           <div className="mb-3 flex items-end justify-between">
             <span className="font-display text-3xl leading-none text-foreground">
               {config.weight}
@@ -130,7 +130,7 @@ const ControlPanel = (state: ClickerState) => {
         </Step>
 
         {/* Step 3 */}
-        <Step index={3} title="SHELL & KEYCAP" subtitle="Dress it up. Changes land on the model instantly.">
+        <Step index={3} title="Your kind of pretty." subtitle="A new coat for your little desk companion.">
           <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">Shell finish</p>
           <div className="mb-4 flex flex-wrap gap-2">
             {FINISHES.map((f) => (
