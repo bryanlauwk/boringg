@@ -15,11 +15,11 @@ const ClickerCanvas = ({ config, pressTick, onPress }: Props) => {
     <Canvas
       shadows
       dpr={[1, 2]}
-      camera={{ position: [0, 2.4, 6.2], fov: 42 }}
+      camera={{ position: [0, 3.6, 6.2], fov: 42 }}
       gl={{ antialias: true }}
     >
-      <color attach="background" args={["#0d0e12"]} />
-      <fog attach="fog" args={["#0d0e12", 9, 22]} />
+      <color attach="background" args={["#e9eadd"]} />
+      <fog attach="fog" args={["#e9eadd", 9, 22]} />
       <Suspense fallback={null}>
         <Studio />
         <ClickerModel config={config} pressTick={pressTick} onPress={onPress} />

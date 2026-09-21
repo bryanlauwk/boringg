@@ -28,8 +28,8 @@ export const useClickerConfig = () => {
   const [config, setConfig] = useState<ClickerConfig>({
     voice: "brown",
     weight: 67,
-    finish: "aluminium",
-    keycap: KEYCAP_COLORS[0],
+    finish: "cream",
+    keycap: "#e0533d",
     profile: "domed",
     glow: false,
     glowColor: GLOW_COLORS[0],

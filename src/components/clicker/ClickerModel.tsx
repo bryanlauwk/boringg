@@ -53,7 +53,7 @@ const ClickerModel = ({ config, pressTick, onPress }: Props) => {
     g.position.y += (targetLift - g.position.y) * k;
 
     if (cap.current) {
-      const target = held.current ? -travel : 0;
+      const target = held.current || shock.current < 0.22 ? -travel : 0;
       const ck = 1 - Math.exp(-stiffness * dt);
       cap.current.position.y += (target - cap.current.position.y) * ck;
     }
@@ -70,8 +70,8 @@ const ClickerModel = ({ config, pressTick, onPress }: Props) => {
 
     // impact shake
     const shake = Math.max(0, 1 - shock.current / 0.35) * (0.02 + r * 0.05);
-    state.camera.position.x += (Math.random() - 0.5) * shake;
-    state.camera.position.y += (Math.random() - 0.5) * shake;
+    state.camera.position.x = Math.sin(shock.current * 55) * shake;
+    state.camera.position.y = 3.6 + Math.cos(shock.current * 55) * shake;
     state.camera.lookAt(0, 0, 0);
   });
 
@@ -86,6 +86,7 @@ const ClickerModel = ({ config, pressTick, onPress }: Props) => {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.code !== "Space" || e.repeat) return;
+      if (e.target instanceof HTMLElement && e.target.closest("button, input, textarea, select, [role='slider'], [role='switch'], [contenteditable='true']")) return;
       e.preventDefault();
       down();
     };
@@ -135,7 +136,7 @@ const ClickerModel = ({ config, pressTick, onPress }: Props) => {
       {/* collar ring */}
       <mesh position={[0, 0.46, 0]} rotation-x={-Math.PI / 2} castShadow>
         <torusGeometry args={[1.06, 0.09, 24, 72]} />
-        <meshStandardMaterial color="#1c1e22" metalness={0.9} roughness={0.28} />
+        <meshStandardMaterial color="#897e64" metalness={0.25} roughness={0.55} />
       </mesh>
 
       {/* switch stem housing */}
@@ -182,7 +183,7 @@ const ClickerModel = ({ config, pressTick, onPress }: Props) => {
       <mesh ref={ring} position={[0, -0.86, 0]} rotation-x={-Math.PI / 2}>
         <ringGeometry args={[1.4, 1.55, 64]} />
         <meshBasicMaterial
-          color={config.glow ? config.glowColor : "#ffffff"}
+          color={config.glow ? config.glowColor : "#b3b99a"}
           transparent
           opacity={0}
           side={THREE.DoubleSide}

@@ -3,7 +3,7 @@ import { ContactShadows, Environment, Lightformer } from "@react-three/drei";
 const Studio = () => {
   return (
     <>
-      <ambientLight intensity={0.35} />
+      <ambientLight intensity={0.8} />
       <spotLight
         position={[4, 8, 5]}
         angle={0.5}
@@ -36,12 +36,12 @@ const Studio = () => {
       {/* floor */}
       <mesh rotation-x={-Math.PI / 2} position-y={-1.02} receiveShadow>
         <circleGeometry args={[14, 64]} />
-        <meshStandardMaterial color="#121317" roughness={0.55} metalness={0.35} />
+        <meshStandardMaterial color="#e9eadd" roughness={1} metalness={0} />
       </mesh>
 
       <ContactShadows
         position={[0, -1.01, 0]}
-        opacity={0.65}
+        opacity={0.3}
         scale={12}
         blur={2.6}
         far={4}
