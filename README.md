@@ -35,5 +35,3 @@ Checks cover types, lint, interaction regression tests, and the production build
 - `src/App.tsx`: home and not-found routes.
 
 No database, account, environment variables, or backend is required. No audio files or remote 3D assets are loaded. Google Fonts supplies the typography, with local fallback fonts.
-
-The former dashboard, customization components, Supabase scaffolding, and unused UI library were removed. Their tracked versions remain recoverable from Git history.
