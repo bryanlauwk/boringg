@@ -1,37 +1,23 @@
-# Malaysian Food Characters for Clicker Lab
+# Cleanup: remove leftovers from the old versions
 
-Add a set of Malaysian food clicker characters, in the spirit of the Wai Company kaya toast set: chunky, cute, collectible desk toys with faces.
+The app is now the one-button "boringg" toy. The Malaysian food clicker and the earlier boredom-tracker ideas were never built into the current code — but leftover files from those phases are still sitting in the project. This cleans them out without touching how the app looks or behaves.
 
-## What gets added
+## What gets removed
 
-A new first step in the control panel: **01 PICK YOUR SNACK** — choose the character the giant clicker becomes. Everything else (switch voice, spring weight, colours, underglow) keeps working on top of it.
+1. **Old backend leftovers** — the project still carries database connection code and a generated type file describing the old "boredom pixels" and "boredom stats" tables. Nothing in the app uses them. Removing them also drops the unused database library from the dependency list, so the app loads a bit leaner.
+2. **Stale config file** — a leftover Tailwind colour dump (`src/tailwind.config.lov.json`) that nothing reads.
+3. **Old plan file** — the Malaysian food character plan left in `.lovable/plan.md`, which no longer describes the project.
+4. **README touch-up** — a short pass so the description matches what the app actually is today, with no references to removed features.
 
-Characters (all built in 3D, no downloads):
+## What stays exactly as is
 
-1. **Plain Clicker** — the current mechanical switch toy, kept as the default option.
-2. **Kaya Toast Set** — toasted bread slab with a kaya-and-butter layer as the press cap, sitting on a saucer base, with a half-boiled egg buddy beside it.
-3. **Teh Tarik** — classic pulled-tea cup with a frothy dome as the button and a stainless saucer base.
-4. **Nasi Lemak** — banana-leaf wrapped bundle with a rice dome cap, a sambal blob, and a cucumber slice.
-5. **Durian** — spiky green husk with a creamy golden pod as the press cap.
-6. **Roti Canai** — folded flaky roti stack on a tin plate, with a small dhal bowl.
-
-Each one has a simple cute face (dot eyes, blush, tiny mouth) that squints on press, so they read as characters not props. A toggle lets you turn faces off for a plain product look.
-
-## Feel and sound
-
-- Each snack presses, springs back and shockwaves exactly like the current toy, so the hover-tilt and Space-bar behaviour stay identical.
-- Picking a snack auto-selects a sound that suits it (toast = muted thock, durian = heavy brick, teh tarik = light tick), but the user can still change the switch voice and spring weight afterwards.
-- Shell finish and keycap colour keep applying to the base/saucer and the topper, so you can still make a brass durian if you want.
-
-## Copy
-
-Quirky, MSCHF-ish, short: "SNACK MODE", "CERTIFIED KOPITIAM GRADE", "DURIAN — 120g of commitment", "Half-boiled, fully committed."
+- The button, the 3D toy, the growth and squeak behaviour, sounds, styling and copy: untouched.
+- The favicon and page title/description: untouched.
+- The existing tests: untouched, and they must still pass.
 
 ## Technical notes
 
-- New `src/components/clicker/characters/` folder with one procedural component per snack (`KayaToast.tsx`, `TehTarik.tsx`, `NasiLemak.tsx`, `Durian.tsx`, `RotiCanai.tsx`) plus a shared `Face.tsx` billboard-style face using a canvas texture.
-- `ClickerModel.tsx` refactors so the press/spring/tilt/shockwave rig stays in one place and the character supplies two parts: a static `base` group and a pressable `cap` group. The existing switch body becomes `PlainSwitch.tsx` under the same contract.
-- `clickerPresets.ts` gains a `CHARACTERS` array (id, name, tagline, suggested voice, suggested weight, palette) and `ClickerConfig` gains `character`.
-- `useClickerConfig` gets a `setCharacter` action that applies the suggested voice/weight, and `randomize` includes characters.
-- Geometry uses primitives + lathe/extrude shapes with subtle noise for the durian husk and toast crust; textures are canvas-generated (toast char marks, banana leaf veins) — no external assets or CDN fetches.
-- Verified in the browser with a screenshot per character before finishing.
+- Delete `src/integrations/supabase/` (client, preview auth storage, generated `types.ts`) and `supabase/config.toml`; remove the now-unused `@supabase/supabase-js` package.
+- Delete `src/tailwind.config.lov.json`.
+- Verify with `rg` that nothing imports the removed paths, then run `npm run check` (types, lint, tests, build) to confirm the app is unchanged and green.
+- Note: removing the backend files means the project no longer has a connected database. Nothing in the app currently uses one, so there is no functional loss — if a future feature needs saved data, it can be re-added then.
